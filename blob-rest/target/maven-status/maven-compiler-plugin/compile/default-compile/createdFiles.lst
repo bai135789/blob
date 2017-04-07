@@ -1,0 +1,4 @@
+com\blob\rest\dao\impl\JedisClientCluster.class
+com\blob\rest\dao\JedisClient.class
+com\blob\rest\dao\impl\JedisClientSingle.class
+com\blob\rest\controller\UserController.class
