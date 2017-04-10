@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.mapper.ColumnArticleMapper" >
+  <resultMap id="BaseResultMap" type="com.blog.pojo.ColumnArticle" >
+    <id column="article_id" property="articleId" jdbcType="SMALLINT" />
+    <result column="article_name" property="articleName" jdbcType="VARCHAR" />
+    <result column="article_intro" property="articleIntro" jdbcType="VARCHAR" />
+    <result column="article_time" property="articleTime" jdbcType="INTEGER" />
+    <result column="article_ip" property="articleIp" jdbcType="VARCHAR" />
+    <result column="article_click" property="articleClick" jdbcType="INTEGER" />
+    <result column="article_sort" property="articleSort" jdbcType="TINYINT" />
+    <result column="fabulous" property="fabulous" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.blog.pojo.ColumnArticle" extends="BaseResultMap" >
+    <result column="article_content" property="articleContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    article_id, article_name, article_intro, article_time, article_ip, article_click, 
+    article_sort, fabulous
+  </sql>
+  <sql id="Blob_Column_List" >
+    article_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.blog.pojo.ColumnArticleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from column_article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.blog.pojo.ColumnArticleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from column_article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Short" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from column_article
+    where article_id = #{articleId,jdbcType=SMALLINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    delete from column_article
+    where article_id = #{articleId,jdbcType=SMALLINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.blog.pojo.ColumnArticleExample" >
+    delete from column_article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.blog.pojo.ColumnArticle" >
+    insert into column_article (article_id, article_name, article_intro, 
+      article_time, article_ip, article_click, 
+      article_sort, fabulous, article_content
+      )
+    values (#{articleId,jdbcType=SMALLINT}, #{articleName,jdbcType=VARCHAR}, #{articleIntro,jdbcType=VARCHAR}, 
+      #{articleTime,jdbcType=INTEGER}, #{articleIp,jdbcType=VARCHAR}, #{articleClick,jdbcType=INTEGER}, 
+      #{articleSort,jdbcType=TINYINT}, #{fabulous,jdbcType=INTEGER}, #{articleContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.blog.pojo.ColumnArticle" >
+    insert into column_article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="articleId != null" >
+        article_id,
+      </if>
+      <if test="articleName != null" >
+        article_name,
+      </if>
+      <if test="articleIntro != null" >
+        article_intro,
+      </if>
+      <if test="articleTime != null" >
+        article_time,
+      </if>
+      <if test="articleIp != null" >
+        article_ip,
+      </if>
+      <if test="articleClick != null" >
+        article_click,
+      </if>
+      <if test="articleSort != null" >
+        article_sort,
+      </if>
+      <if test="fabulous != null" >
+        fabulous,
+      </if>
+      <if test="articleContent != null" >
+        article_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="articleId != null" >
+        #{articleId,jdbcType=SMALLINT},
+      </if>
+      <if test="articleName != null" >
+        #{articleName,jdbcType=VARCHAR},
+      </if>
+      <if test="articleIntro != null" >
+        #{articleIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="articleTime != null" >
+        #{articleTime,jdbcType=INTEGER},
+      </if>
+      <if test="articleIp != null" >
+        #{articleIp,jdbcType=VARCHAR},
+      </if>
+      <if test="articleClick != null" >
+        #{articleClick,jdbcType=INTEGER},
+      </if>
+      <if test="articleSort != null" >
+        #{articleSort,jdbcType=TINYINT},
+      </if>
+      <if test="fabulous != null" >
+        #{fabulous,jdbcType=INTEGER},
+      </if>
+      <if test="articleContent != null" >
+        #{articleContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.blog.pojo.ColumnArticleExample" resultType="java.lang.Integer" >
+    select count(*) from column_article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update column_article
+    <set >
+      <if test="record.articleId != null" >
+        article_id = #{record.articleId,jdbcType=SMALLINT},
+      </if>
+      <if test="record.articleName != null" >
+        article_name = #{record.articleName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.articleIntro != null" >
+        article_intro = #{record.articleIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="record.articleTime != null" >
+        article_time = #{record.articleTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.articleIp != null" >
+        article_ip = #{record.articleIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.articleClick != null" >
+        article_click = #{record.articleClick,jdbcType=INTEGER},
+      </if>
+      <if test="record.articleSort != null" >
+        article_sort = #{record.articleSort,jdbcType=TINYINT},
+      </if>
+      <if test="record.fabulous != null" >
+        fabulous = #{record.fabulous,jdbcType=INTEGER},
+      </if>
+      <if test="record.articleContent != null" >
+        article_content = #{record.articleContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update column_article
+    set article_id = #{record.articleId,jdbcType=SMALLINT},
+      article_name = #{record.articleName,jdbcType=VARCHAR},
+      article_intro = #{record.articleIntro,jdbcType=VARCHAR},
+      article_time = #{record.articleTime,jdbcType=INTEGER},
+      article_ip = #{record.articleIp,jdbcType=VARCHAR},
+      article_click = #{record.articleClick,jdbcType=INTEGER},
+      article_sort = #{record.articleSort,jdbcType=TINYINT},
+      fabulous = #{record.fabulous,jdbcType=INTEGER},
+      article_content = #{record.articleContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update column_article
+    set article_id = #{record.articleId,jdbcType=SMALLINT},
+      article_name = #{record.articleName,jdbcType=VARCHAR},
+      article_intro = #{record.articleIntro,jdbcType=VARCHAR},
+      article_time = #{record.articleTime,jdbcType=INTEGER},
+      article_ip = #{record.articleIp,jdbcType=VARCHAR},
+      article_click = #{record.articleClick,jdbcType=INTEGER},
+      article_sort = #{record.articleSort,jdbcType=TINYINT},
+      fabulous = #{record.fabulous,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.blog.pojo.ColumnArticle" >
+    update column_article
+    <set >
+      <if test="articleName != null" >
+        article_name = #{articleName,jdbcType=VARCHAR},
+      </if>
+      <if test="articleIntro != null" >
+        article_intro = #{articleIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="articleTime != null" >
+        article_time = #{articleTime,jdbcType=INTEGER},
+      </if>
+      <if test="articleIp != null" >
+        article_ip = #{articleIp,jdbcType=VARCHAR},
+      </if>
+      <if test="articleClick != null" >
+        article_click = #{articleClick,jdbcType=INTEGER},
+      </if>
+      <if test="articleSort != null" >
+        article_sort = #{articleSort,jdbcType=TINYINT},
+      </if>
+      <if test="fabulous != null" >
+        fabulous = #{fabulous,jdbcType=INTEGER},
+      </if>
+      <if test="articleContent != null" >
+        article_content = #{articleContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where article_id = #{articleId,jdbcType=SMALLINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.blog.pojo.ColumnArticle" >
+    update column_article
+    set article_name = #{articleName,jdbcType=VARCHAR},
+      article_intro = #{articleIntro,jdbcType=VARCHAR},
+      article_time = #{articleTime,jdbcType=INTEGER},
+      article_ip = #{articleIp,jdbcType=VARCHAR},
+      article_click = #{articleClick,jdbcType=INTEGER},
+      article_sort = #{articleSort,jdbcType=TINYINT},
+      fabulous = #{fabulous,jdbcType=INTEGER},
+      article_content = #{articleContent,jdbcType=LONGVARCHAR}
+    where article_id = #{articleId,jdbcType=SMALLINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.blog.pojo.ColumnArticle" >
+    update column_article
+    set article_name = #{articleName,jdbcType=VARCHAR},
+      article_intro = #{articleIntro,jdbcType=VARCHAR},
+      article_time = #{articleTime,jdbcType=INTEGER},
+      article_ip = #{articleIp,jdbcType=VARCHAR},
+      article_click = #{articleClick,jdbcType=INTEGER},
+      article_sort = #{articleSort,jdbcType=TINYINT},
+      fabulous = #{fabulous,jdbcType=INTEGER}
+    where article_id = #{articleId,jdbcType=SMALLINT}
+  </update>
+</mapper>

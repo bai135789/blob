@@ -1,0 +1,185 @@
+用户表
+
+CREATE TABLE user_profile (
+ userid mediumint(8) NOT NULL AUTO_INCREMENT COMMENT '用户自增ID',
+ user_number varchar(60) NOT NULL COMMENT '用户登录账号',
+ user_password varchar(60) NOT NULL COMMENT '用户登录密码MD5+字典加密',
+ username varchar(60) NOT NULL COMMENT '用户名称',
+ photo varchar(255) NOT NULL COMMENT '用户头像路径',
+ PRIMARY KEY (userid)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+
+第三方登录表(QQ 微博等 需进行重新设计)
+CREATE TABLE user_oauth (
+ oid mediumint(8) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+ userid mediumint(8) NOT NULL COMMENT '用户ID',
+ oauth_name varchar(60) NOT NULL COMMENT '第三方名称(QQ weibo 等)',
+ oauth_id varchar(60) NOT NULL COMMENT '第三方Id',
+ oauth_access_token varchar(60) NOT NULL COMMENT 'token',
+ oauth_expires varchar(60) NOT NULL COMMENT '过期时间',
+ PRIMARY KEY (oid)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+
+
+---------------------------
+--article_sort 文章分类表(生活，技术，读书，等)
+---------------------------
+CREATE TABLE article_sort (
+ sort_article_id mediumint(8) NOT NULL AUTO_INCREMENT COMMENT '文章自增ID',
+ sort_article_name varchar(60) NOT NULL COMMENT '分类名称',
+ PRIMARY KEY (sort_article_id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+
+---------------------------
+--article_tag 文章标签表(Java Tomcat Nginx 等)
+---------------------------
+CREATE TABLE article_tag (
+ sort_tag_id mediumint(8) NOT NULL AUTO_INCREMENT COMMENT '标签自增ID',
+ sort_tag_name varchar(60) NOT NULL COMMENT '标签名称',
+ PRIMARY KEY (sort_tag_id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+
+---------------------------
+--article_type 文章类型表(例如:原创, 转载,译文 等)
+---------------------------
+CREATE TABLE article_type (
+ sort_type_id mediumint(8) NOT NULL AUTO_INCREMENT COMMENT '类型ID',
+ sort_type_name varchar(60) NOT NULL COMMENT '类型名称',
+ yxbz tinyint(3) NOT NULL DEFAULT 1 COMMENT '有效标志:0为失效，1位有效',
+ PRIMARY KEY (sort_ttype_id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+
+
+----------------------------
+--article 博文表
+----------------------------
+CREATE TABLE article (
+ article_id smallint(5) NOT NULL AUTO_INCREMENT COMMENT '日志自增ID号',
+ article_name varchar(128) NOT NULL COMMENT '文章名称',
+ article_intro varchar(300) NOT NULL COMMENT '文章简介图片URL或者文字',
+ article_time int(13) NOT NULL COMMENT '发布时间',
+ article_ip varchar(15) NOT NULL COMMENT '发布IP',
+ article_click int(10) NOT NULL COMMENT '查看人数',
+ sort_article_id mediumint(8) NOT NULL COMMENT '所属分类',
+ sort_tag_id mediumint(8) NOT NULL COMMENT '所属标签',
+ sort_type_id mediumint(8) NOT NULL COMMENT '所属类型',
+ article_type int(13) NOT NULL DEFAULT 1 COMMENT '文章的模式:0为私有，1为公开',
+ article_content text NOT NULL COMMENT '文章内容',
+ article_up tinyint(3) NOT NULL DEFAULT 0 COMMENT '是否置顶:0为否，1为是',
+ article_support tinyint(3) NOT NULL DEFAULT 0 COMMENT '是否博主推荐:0为否，1为是',
+ fabulous  int(13) NOT NULL COMMENT '点赞数量',
+ PRIMARY KEY (article_id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+
+
+
+
+--------------------------
+--blog_column 博客专栏
+--------------------------
+CREATE TABLE blog_column (
+ column_id smallint(5) NOT NULL AUTO_INCREMENT COMMENT '专栏自增ID',
+ column_name varchar(60) NOT NULL COMMENT '专栏名称',
+ column_logo varchar(255) NOT NULL COMMENT '专栏LOGO图片',
+ PRIMARY KEY (link_id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+
+----------------------------
+--article 专栏博文表
+----------------------------
+CREATE TABLE column_article (
+ article_id smallint(5) NOT NULL AUTO_INCREMENT COMMENT '日志自增ID号',
+ article_name varchar(128) NOT NULL COMMENT '文章名称',
+ article_intro varchar(300) NOT NULL COMMENT '文章简介图片URL或者文字',
+ article_time int(13) NOT NULL COMMENT '发布时间',
+ article_ip varchar(15) NOT NULL COMMENT '发布IP',
+ article_click int(10) NOT NULL COMMENT '查看人数',
+ article_content text NOT NULL COMMENT '文章内容',
+ article_sort tinyint(3) NOT NULL DEFAULT 0 COMMENT '排序号', 
+ fabulous  int(13) NOT NULL COMMENT '点赞数量',
+ PRIMARY KEY (article_id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+
+
+
+----------------------------
+--user_comment 用户评论表
+----------------------------
+CREATE TABLE user_comment (
+ c_id mediumint(8) NOT NULL AUTO_INCREMENT COMMENT '评论自增ID号',
+ article_id mediumint(8) NOT NULL COMMENT '博文ID',
+ comment_content varchar(255) NOT NULL COMMENT '评论内容',
+ comment_user_id mediumint(8) NOT NULL COMMENT '评论者ID',
+ comment_time int(13) NOT NULL COMMENT '评论时间',
+ parent_comment_id mediumint(8) NOT NULL COMMENT '评论的上级ID',
+ comment_ip varchar(15) NOT NULL COMMENT '评论时的IP地址',
+ fabulous  int(13) NOT NULL COMMENT '点赞数量',
+ PRIMARY KEY (c_id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+
+
+--------------------------
+--friendly_link 友情链接(可以添加GITHUB, CSDN 等)
+--------------------------
+CREATE TABLE friendly_link (
+ link_id smallint(5) NOT NULL AUTO_INCREMENT COMMENT '友情链接自增ID',
+ link_name varchar(60) NOT NULL COMMENT '友情链接名称',
+ link_url varchar(255) NOT NULL COMMENT '链接地址',
+ link_logo varchar(255) NOT NULL COMMENT 'LOGO图片',
+ show_order tinyint(3) NOT NULL COMMENT '在页面显示的顺序',
+ PRIMARY KEY (link_id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+
+------------------------------
+--用户发送邮箱记录表(调用邮箱接口)
+------------------------------
+CREATE TABLE user_email (
+ email_id mediumint(8) NOT NULL AUTO_INCREMENT COMMENT '自增ID号',
+ email_num varchar(12) NOT NULL COMMENT '用户Email',
+ contents varchar(255) NOT NULL COMMENT '发送内容',
+ send_time int(13) NOT NULL COMMENT '发送时间',
+ user_id mediumint(8) NOT NULL COMMENT '用户ID',
+ PRIMARY KEY (phone_id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+
+
+------------------------------
+--留言板记录表
+------------------------------
+CREATE TABLE leave_msg (
+ msg_id mediumint(8) NOT NULL AUTO_INCREMENT COMMENT '评论自增ID号',
+ msg_content varchar(255) NOT NULL COMMENT '留言内容',
+ msg_user_id mediumint(8) NOT NULL COMMENT '留言者ID',
+ parent_msg_id mediumint(8) NOT NULL COMMENT '留言的上级ID',
+ leave_msg_time int(13) NOT NULL COMMENT '留言时间',
+ leave_msg_ip varchar(15) NOT NULL COMMENT '留言时的IP地址',
+ fabulous int(13) NOT NULL COMMENT '点赞数量',
+ PRIMARY KEY (msg_id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+
+简历表(未设计) 需进行加密访问
+
+
+------------------------
+--visitor 最近访客表(需要每个操作都得进行判断Ip和时间判断唯一(一天一次))
+------------------------
+CREATE TABLE visitor (
+ v_id mediumint(8) NOT NULL AUTO_INCREMENT COMMENT '访客记录ID',
+ visitor_time int(13) NOT NULL COMMENT '来访时间',
+ visitor_ip varchar(15) NOT NULL COMMENT '访客IP地址',
+ PRIMARY KEY (v_id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
+
